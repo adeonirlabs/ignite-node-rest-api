@@ -126,4 +126,45 @@ describe('Transactions routes', () => {
       amount: 300,
     })
   })
+
+  test('if user can update a transaction', async () => {
+    const createResponse = await request(app.server)
+      .post('/transactions')
+      .send({
+        title: 'New transaction',
+        amount: 500,
+        type: 'income',
+      })
+      .expect(201)
+
+    const cookies = createResponse.get('Set-Cookie')
+
+    const getListResponse = await request(app.server)
+      .get('/transactions')
+      .set('Cookie', cookies || [])
+      .expect(200)
+
+    const transactionId = getListResponse.body.transactions[0].id
+
+    await request(app.server)
+      .put(`/transactions/${transactionId}`)
+      .set('Cookie', cookies || [])
+      .send({
+        title: 'Updated transaction',
+        amount: 300,
+      })
+      .expect(204)
+
+    const getTransactionResponse = await request(app.server)
+      .get(`/transactions/${transactionId}`)
+      .set('Cookie', cookies || [])
+      .expect(200)
+
+    expect(getTransactionResponse.body.transaction).toEqual(
+      expect.objectContaining({
+        title: 'Updated transaction',
+        amount: 300,
+      })
+    )
+  })
 })
