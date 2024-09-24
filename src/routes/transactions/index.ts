@@ -109,4 +109,17 @@ export const transactions = async (app: FastifyInstance) => {
       return reply.status(204).send()
     }
   )
+
+  app.delete<{ Params: TransactionParamsRequest }>(
+    '/:id',
+    { preHandler: [checkSessionId] },
+    async (request, reply) => {
+      const { sessionId } = request.cookies
+      const { id } = transactionParamsSchema.parse(request.params)
+
+      await database('transactions').where({ id, sessionId }).delete()
+
+      return reply.status(204).send()
+    }
+  )
 }
