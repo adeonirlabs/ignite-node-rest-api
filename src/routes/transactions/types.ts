@@ -17,3 +17,9 @@ export const createTransactionSchema = z.object({
 })
 
 export type CreateTransactionRequest = z.infer<typeof createTransactionSchema>
+
+export const getTransactionSchema = z.object({
+  id: z.string().uuid('ID inválido'),
+})
+
+export type GetTransactionRequest = z.infer<typeof getTransactionSchema>

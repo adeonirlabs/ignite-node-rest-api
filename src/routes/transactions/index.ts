@@ -3,10 +3,26 @@ import type { FastifyInstance } from 'fastify'
 
 import { database } from '~/database.ts'
 
-import type { CreateTransactionRequest } from './types.ts'
-import { createTransactionSchema } from './types.ts'
+import type {
+  CreateTransactionRequest,
+  GetTransactionRequest,
+} from './types.ts'
+import { createTransactionSchema, getTransactionSchema } from './types.ts'
 
 export const transactions = async (app: FastifyInstance) => {
+  app.get('/', async (_, reply) => {
+    const transactions = await database('transactions').select()
+
+    return reply.send({ transactions })
+  })
+
+  app.get<{ Params: GetTransactionRequest }>('/:id', async (request, reply) => {
+    const { id } = getTransactionSchema.parse(request.params)
+    const transaction = await database('transactions').where('id', id).first()
+
+    return reply.send({ transaction })
+  })
+
   app.post<{ Body: CreateTransactionRequest }>('/', async (request, reply) => {
     const { title, amount, type } = createTransactionSchema.parse(request.body)
 
