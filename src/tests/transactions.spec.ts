@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, describe, test } from 'bun:test'
+import { afterAll, beforeAll, describe, expect, test } from 'bun:test'
 import request from 'supertest'
 
 import { app } from '~/app.ts'
@@ -21,5 +21,31 @@ describe('Transactions routes', () => {
         type: 'expense',
       })
       .expect(201)
+  })
+
+  test('if user can get all transactions', async () => {
+    const createResponse = await request(app.server)
+      .post('/transactions')
+      .send({
+        title: 'New transaction',
+        amount: 100,
+        type: 'expense',
+      })
+      .expect(201)
+
+    const cookies = createResponse.get('Set-Cookie')
+
+    const listResponse = await request(app.server)
+      .get('/transactions')
+      .set('Cookie', cookies || [])
+      .expect(200)
+
+    expect(listResponse.body.transactions).toEqual([
+      expect.objectContaining({
+        title: 'New transaction',
+        amount: -100,
+        type: 'expense',
+      }),
+    ])
   })
 })
