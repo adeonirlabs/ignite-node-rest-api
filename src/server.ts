@@ -6,8 +6,7 @@ import { env } from '~/env.ts'
 const app = fastify()
 
 app.get('/', async () => {
-  const tables = await database.select('*').from('sqlite_schema')
-  return tables
+  return await database.select('*').into('transactions')
 })
 
 app
