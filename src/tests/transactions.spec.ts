@@ -1,7 +1,15 @@
-import { afterAll, beforeAll, describe, expect, test } from 'bun:test'
+import {
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  test,
+} from 'bun:test'
 import request from 'supertest'
 
 import { app } from '~/app.ts'
+import { database } from '~/database.ts'
 
 describe('Transactions routes', () => {
   beforeAll(async () => {
@@ -10,6 +18,11 @@ describe('Transactions routes', () => {
 
   afterAll(async () => {
     await app.close()
+  })
+
+  beforeEach(async () => {
+    await database.migrate.rollback()
+    await database.migrate.latest()
   })
 
   test('if user can create a new transaction', async () => {
