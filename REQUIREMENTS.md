@@ -3,7 +3,7 @@
 - [x] Deve ser possível criar uma nova transação
 - [x] Deve ser possível listar todas as transações
 - [x] Deve ser possível atualizar uma transação
-- [ ] Deve ser possível deletar uma transação
+- [x] Deve ser possível deletar uma transação
 - [x] Deve ser possível visualizar uma transação específica
 - [x] Deve ser possível obter o resumo da conta
 
