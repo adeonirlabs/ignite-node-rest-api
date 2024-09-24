@@ -2,7 +2,7 @@
 
 - [x] Deve ser possível criar uma nova transação
 - [x] Deve ser possível listar todas as transações
-- [ ] Deve ser possível atualizar uma transação
+- [x] Deve ser possível atualizar uma transação
 - [ ] Deve ser possível deletar uma transação
 - [x] Deve ser possível visualizar uma transação específica
 - [x] Deve ser possível obter o resumo da conta
@@ -20,6 +20,7 @@
 - Não deve ser possível criar uma transação sem um título
 - Não deve ser possível criar uma transação sem um valor
 - Não deve ser possível criar uma transação com um valor negativo
+- Não deve ser possível atualizar o tipo de uma transação
 - A transação pode ser do tipo `expense` ou `income`
 - Deve ser possível identificar o usuário que fez a transação
 - O usuário só pode visualizar transações que ele fez
