@@ -1,11 +1,10 @@
 # Requisitos funcionais
 
-- [ ] Deve ser possível criar uma nova transação
-- [ ] Deve ser possível listar todas as transações
-- [ ] Deve ser possível detalhar uma transação
+- [x] Deve ser possível criar uma nova transação
+- [x] Deve ser possível listar todas as transações
 - [ ] Deve ser possível atualizar uma transação
 - [ ] Deve ser possível deletar uma transação
-- [ ] Deve ser possível visualizar uma transação específica
+- [x] Deve ser possível visualizar uma transação específica
 - [ ] Deve ser possível obter o resumo da conta
 
 # Requisitos não funcionais
