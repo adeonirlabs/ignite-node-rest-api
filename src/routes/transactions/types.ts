@@ -18,8 +18,15 @@ export const createTransactionSchema = z.object({
 
 export type CreateTransactionRequest = z.infer<typeof createTransactionSchema>
 
-export const getTransactionSchema = z.object({
+export const transactionParamsSchema = z.object({
   id: z.string().uuid('ID inválido'),
 })
 
-export type GetTransactionRequest = z.infer<typeof getTransactionSchema>
+export type TransactionParamsRequest = z.infer<typeof transactionParamsSchema>
+
+export const updateTransactionSchema = z.object({
+  title: z.string().min(3, 'Título é obrigatório'),
+  amount: z.number().positive('Valor é obrigatório'),
+})
+
+export type UpdateTransactionRequest = z.infer<typeof updateTransactionSchema>

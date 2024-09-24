@@ -5,9 +5,14 @@ import { database } from '~/database.ts'
 
 import type {
   CreateTransactionRequest,
-  GetTransactionRequest,
+  TransactionParamsRequest,
+  UpdateTransactionRequest,
 } from './types.ts'
-import { createTransactionSchema, getTransactionSchema } from './types.ts'
+import {
+  createTransactionSchema,
+  transactionParamsSchema,
+  updateTransactionSchema,
+} from './types.ts'
 
 import { checkSessionId } from '~/middlewares/session-id.ts'
 
@@ -48,12 +53,12 @@ export const transactions = async (app: FastifyInstance) => {
     return reply.send({ transactions })
   })
 
-  app.get<{ Params: GetTransactionRequest }>(
+  app.get<{ Params: TransactionParamsRequest }>(
     '/:id',
     { preHandler: [checkSessionId] },
     async (request, reply) => {
-      const { id } = getTransactionSchema.parse(request.params)
       const { sessionId } = request.cookies
+      const { id } = transactionParamsSchema.parse(request.params)
 
       const transaction = await database('transactions')
         .where({ id, sessionId })
@@ -75,6 +80,33 @@ export const transactions = async (app: FastifyInstance) => {
         .first()
 
       return reply.send({ summary })
+    }
+  )
+
+  app.put<{ Params: TransactionParamsRequest; Body: UpdateTransactionRequest }>(
+    '/:id',
+    { preHandler: [checkSessionId] },
+    async (request, reply) => {
+      const { sessionId } = request.cookies
+      const { id } = transactionParamsSchema.parse(request.params)
+      const { title, amount } = updateTransactionSchema.parse(request.body)
+
+      const transaction = await database('transactions')
+        .where({ id, sessionId })
+        .first()
+
+      if (!transaction) {
+        return reply.status(404).send({ message: 'Transaction not found' })
+      }
+
+      await database('transactions')
+        .where({ id, sessionId })
+        .update({
+          title,
+          amount: amount * (transaction.type === 'income' ? 1 : -1),
+        })
+
+      return reply.status(204).send()
     }
   )
 }
