@@ -1,13 +1,11 @@
 import fastify from 'fastify'
 
-import { database } from '~/database.js'
 import { env } from '~/env.ts'
+import { transactions } from '~/routes/transactions/index.ts'
 
 const app = fastify()
 
-app.get('/', async () => {
-  return await database.select('*').into('transactions')
-})
+app.register(transactions, { prefix: '/transactions' })
 
 app
   .listen({
