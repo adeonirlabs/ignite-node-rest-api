@@ -12,6 +12,32 @@ import { createTransactionSchema, getTransactionSchema } from './types.ts'
 import { checkSessionId } from '~/middlewares/session-id.ts'
 
 export const transactions = async (app: FastifyInstance) => {
+  app.post<{ Body: CreateTransactionRequest }>('/', async (request, reply) => {
+    const { title, amount, type } = createTransactionSchema.parse(request.body)
+
+    let sessionId = request.cookies.sessionId
+
+    if (!sessionId) {
+      sessionId = randomUUID()
+    }
+
+    await database('transactions').insert({
+      id: randomUUID(),
+      sessionId,
+      title,
+      amount: amount * (type === 'income' ? 1 : -1),
+      type,
+    })
+
+    reply.setCookie('sessionId', sessionId, {
+      path: '/',
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+    })
+
+    return reply.status(201).send()
+  })
+
   app.get('/', { preHandler: [checkSessionId] }, async (request, reply) => {
     const { sessionId } = request.cookies
 
@@ -51,30 +77,4 @@ export const transactions = async (app: FastifyInstance) => {
       return reply.send({ summary })
     }
   )
-
-  app.post<{ Body: CreateTransactionRequest }>('/', async (request, reply) => {
-    const { title, amount, type } = createTransactionSchema.parse(request.body)
-
-    let sessionId = request.cookies.sessionId
-
-    if (!sessionId) {
-      sessionId = randomUUID()
-    }
-
-    await database('transactions').insert({
-      id: randomUUID(),
-      sessionId,
-      title,
-      amount: amount * (type === 'income' ? 1 : -1),
-      type,
-    })
-
-    reply.setCookie('sessionId', sessionId, {
-      path: '/',
-      httpOnly: true,
-      maxAge: 60 * 60 * 24 * 30, // 30 days
-    })
-
-    return reply.status(201).send()
-  })
 }

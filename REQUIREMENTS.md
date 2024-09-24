@@ -5,7 +5,7 @@
 - [ ] Deve ser possível atualizar uma transação
 - [ ] Deve ser possível deletar uma transação
 - [x] Deve ser possível visualizar uma transação específica
-- [ ] Deve ser possível obter o resumo da conta
+- [x] Deve ser possível obter o resumo da conta
 
 # Requisitos não funcionais
 
@@ -23,4 +23,3 @@
 - A transação pode ser do tipo `expense` ou `income`
 - Deve ser possível identificar o usuário que fez a transação
 - O usuário só pode visualizar transações que ele fez
-- Não deve ser possível criar uma transação para um usuário que não existe
