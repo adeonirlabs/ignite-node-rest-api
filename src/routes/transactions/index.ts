@@ -23,6 +23,14 @@ export const transactions = async (app: FastifyInstance) => {
     return reply.send({ transaction })
   })
 
+  app.get('/summary', async (_, reply) => {
+    const summary = await database('transactions')
+      .sum('amount', { as: 'amount' })
+      .first()
+
+    return reply.send({ summary })
+  })
+
   app.post<{ Body: CreateTransactionRequest }>('/', async (request, reply) => {
     const { title, amount, type } = createTransactionSchema.parse(request.body)
 
