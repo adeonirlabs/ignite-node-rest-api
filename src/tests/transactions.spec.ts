@@ -167,4 +167,29 @@ describe('Transactions routes', () => {
       })
     )
   })
+
+  test('if user can delete a transaction', async () => {
+    const createResponse = await request(app.server)
+      .post('/transactions')
+      .send({
+        title: 'New transaction',
+        amount: 500,
+        type: 'income',
+      })
+      .expect(201)
+
+    const cookies = createResponse.get('Set-Cookie')
+
+    const getListResponse = await request(app.server)
+      .get('/transactions')
+      .set('Cookie', cookies || [])
+      .expect(200)
+
+    const transactionId = getListResponse.body.transactions[0].id
+
+    await request(app.server)
+      .delete(`/transactions/${transactionId}`)
+      .set('Cookie', cookies || [])
+      .expect(204)
+  })
 })
