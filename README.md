@@ -1,15 +1,54 @@
-# rest-api
+> Ignite
 
-To install dependencies:
+# Node.js Rest API
+
+## Projeto
+
+Este é um projeto de uma Rest API desenvolvido durante o Ignite da Rocketseat.
+
+## Tecnologias
+
+- Fastify
+- Knex
+- SQLite
+- TypeScript
+- Biome
+- Zod
+- Tsup
+
+## Rodando o projeto
+
+### Pré-requisitos
+
+- Bun
+
+### Instalação
+
+Clone o repositório
 
 ```bash
-bun install
+git clone https://github.com/adeonirlabs/rocketseat-node-rest-api.git
+cd rocketseat-node-rest-api
 ```
 
-To run:
+Copie o arquivo `.env.example` para `.env` e configure as variáveis de ambiente.
 
 ```bash
-bun run index.ts
+cp .env.example .env
 ```
 
-This project was created using `bun init` in bun v1.1.24. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+Rode o comando para rodar as migrations.
+
+```bash
+bun knex migrate:latest
+```
+
+Rode o projeto
+
+```bash
+bun run dev
+```
+
+## Documentação
+
+[API Documentation](./postman-collection.json)
