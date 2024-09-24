@@ -1,7 +1,7 @@
 {
-  "name": "rest-api",
+  "name": "node-rest-api",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
   "module": "index.ts",
   "type": "module",
   "scripts": {
