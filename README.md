@@ -40,8 +40,10 @@ cp .env.example .env
 Rode o comando para rodar as migrations.
 
 ```bash
-bun knex migrate:latest
+bun db:migrate
 ```
+
+> Obs: Se você precisa voltar uma migration, pode usar o comando `bun db:rollback`.
 
 Rode o projeto
 

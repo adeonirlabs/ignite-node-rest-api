@@ -7,6 +7,8 @@
   "scripts": {
     "dev": "bun --watch run src/server.ts",
     "knex": "tsx ./node_modules/.bin/knex",
+    "db:migrate": "bun knex migrate:latest",
+    "db:rollback": "bun knex migrate:rollback",
     "build": "tsup"
   },
   "dependencies": {
