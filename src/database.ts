@@ -4,12 +4,19 @@ import knex from 'knex'
 import { env } from '~/env.ts'
 
 const isTestEnvironment = process.env.NODE_ENV === 'test'
+const isProductionEnvironment = process.env.NODE_ENV === 'production'
 
 export const config: Knex.Config = {
-  client: 'sqlite3',
-  connection: isTestEnvironment
-    ? { filename: ':memory:' }
-    : { filename: env.DATABASE_URL },
+  client: env.DATABASE_CLIENT,
+  connection: (() => {
+    if (isTestEnvironment) {
+      return { filename: ':memory:' }
+    }
+    if (isProductionEnvironment) {
+      return env.DATABASE_URL
+    }
+    return { filename: env.DATABASE_URL }
+  })(),
   useNullAsDefault: true,
 }
 
