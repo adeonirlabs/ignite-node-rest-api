@@ -24,11 +24,12 @@ Este é um projeto de uma Rest API desenvolvido durante o Ignite da Rocketseat.
 
 ### Instalação
 
-Clone o repositório
+Clone o repositório e instale as dependências.
 
 ```bash
 git clone https://github.com/adeonirlabs/rocketseat-node-rest-api.git
 cd rocketseat-node-rest-api
+bun install
 ```
 
 Copie o arquivo `.env.example` para `.env` e configure as variáveis de ambiente.
@@ -45,7 +46,7 @@ bun db:migrate
 
 > Obs: Se você precisa voltar uma migration, pode usar o comando `bun db:rollback`.
 
-Rode o projeto
+Suba o servidor de desenvolvimento
 
 ```bash
 bun run dev
